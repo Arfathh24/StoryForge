@@ -28,8 +28,10 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Capacitor
+        run: |
+          npm install
+          npm install @capacitor/core@7.4.0 @capacitor/cli@7.4.0 @capacitor/android@7.4.0
 
       - name: Create Android project
         run: npx cap add android
@@ -37,7 +39,7 @@ jobs:
       - name: Sync StoryForge
         run: npx cap sync android
 
-      - name: Build debug APK
+      - name: Build APK
         working-directory: android
         run: ./gradlew assembleDebug
 
