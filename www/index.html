@@ -1,38 +1,232 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#171a22"><meta name="description" content="StoryForge offline writing studio for movies, anime, books, scripts and summaries">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101116">
+<meta name="description" content="StoryForge — offline writing studio for books, movies, anime, screenplays and summaries">
 <link rel="manifest" href="manifest.webmanifest">
-<title>StoryForge — Writing Studio</title>
+<title>StoryForge</title>
 <style>
-:root{--bg:#0f1117;--panel:#171a22;--panel2:#1e222c;--text:#f3f4f7;--muted:#9aa3b2;--accent:#6d8cff;--line:#303746;--paper:#fffdf8;--ink:#20232a;--paperline:#d7dce5}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;height:100vh;overflow:hidden}.app{display:grid;grid-template-columns:260px 1fr 290px;height:100vh}.sidebar,.right{background:var(--panel);border-color:var(--line)}.sidebar{border-right:1px solid var(--line);padding:18px;overflow:auto}.right{border-left:1px solid var(--line);padding:18px;overflow:auto}.brand{font-weight:800;font-size:20px;margin-bottom:18px}.brand span{color:var(--accent)}button,input,select,textarea{font:inherit}button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:9px 12px;cursor:pointer}button:hover{filter:brightness(1.12)}.primary{background:var(--accent);border-color:var(--accent);color:#fff}.nav button{width:100%;text-align:left;margin:4px 0}.section-title{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.12em;margin:22px 4px 8px}.projects{display:grid;gap:6px}.project{padding:9px;border-radius:9px;cursor:pointer;color:#d9dde6}.project.active{background:var(--panel2);outline:1px solid var(--line)}.main{display:flex;flex-direction:column;min-width:0}.top{height:64px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:10px 16px}.title{font-weight:700;flex:1;min-width:0}.title input{background:transparent;border:0;color:var(--text);font-size:18px;font-weight:700;width:100%;outline:none}.editor-wrap{flex:1;overflow:auto;padding:28px}.paper{max-width:850px;min-height:calc(100vh - 160px);margin:0 auto;background:var(--paper);color:var(--ink);box-shadow:0 10px 40px #0008;padding:70px 72px;position:relative}.paper.ruled{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 30px,var(--paperline) 31px);background-size:100% 31px}.paper.script{font-family:Courier New,monospace;max-width:900px}.paper.book{font-family:Georgia,serif}.paper h1{margin:0 0 25px;text-align:center;font-size:30px}.paper textarea{width:100%;min-height:650px;border:0;outline:0;resize:none;background:transparent;color:inherit;font:inherit;font-size:17px;line-height:1.8}.script textarea{font-size:15px;line-height:1.55}.bottom{height:40px;border-top:1px solid var(--line);display:flex;align-items:center;gap:18px;padding:0 16px;color:var(--muted);font-size:12px}.toolrow{display:flex;gap:6px;flex-wrap:wrap}.toolrow button{font-size:12px}.card{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:12px}.card h3{font-size:13px;margin:0 0 10px}.stat{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;padding:5px 0}.stat b{color:var(--text)}.suggestion{padding:8px;border-radius:8px;background:#242a36;margin-top:7px;font-size:12px}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal.show{display:flex}.dialog{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;max-width:520px;width:100%}.dialog input,.dialog select{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;background:var(--panel2);color:var(--text);margin:7px 0 14px}.dialog-actions{display:flex;justify-content:flex-end;gap:8px}.toast{position:fixed;bottom:55px;left:50%;transform:translateX(-50%);background:#222936;border:1px solid var(--line);padding:10px 14px;border-radius:10px;display:none;z-index:20}.toast.show{display:block}@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar,.right{display:none}.editor-wrap{padding:10px}.paper{padding:45px 25px;min-height:calc(100vh - 115px)}}
-</style></head>
+:root{--bg:#101116;--panel:#171920;--panel2:#1e212a;--text:#f5f3ee;--muted:#a9abb4;--accent:#8fb7ff;--line:#30333d;--paper:#fffdf8;--ink:#24211e}
+*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--text)}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 13px}
+button:hover{filter:brightness(1.12)}button.primary{background:var(--accent);color:#0b0d12;border-color:transparent;font-weight:700}
+.app{height:100%;display:flex;flex-direction:column}.top{height:64px;display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line);background:#111319;position:sticky;top:0;z-index:20}
+.logo{font-weight:900;font-size:20px;letter-spacing:.2px;margin-right:auto}.logo span{color:var(--accent)}
+.icon{width:42px;height:42px;padding:0;display:grid;place-items:center}.layout{flex:1;min-height:0;display:flex}
+.sidebar{width:260px;border-right:1px solid var(--line);padding:14px;overflow:auto;background:#13151b}.navbtn{width:100%;text-align:left;margin:4px 0;background:transparent;border-color:transparent}.navbtn.active{background:var(--panel2);border-color:var(--line)}
+.main{flex:1;overflow:auto;padding:20px}.view{max-width:1200px;margin:auto}.hidden{display:none!important}
+h1,h2,h3{margin:0 0 12px}h1{font-size:30px}h2{font-size:22px}.muted{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}.card h3{font-size:17px}.stat{font-size:26px;font-weight:800}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.toolbar .grow{flex:1}
+input,select,textarea{background:#111319;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:11px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}.project{min-height:150px;display:flex;flex-direction:column}.project .actions{margin-top:auto;display:flex;gap:7px}.pill{display:inline-block;border:1px solid var(--line);padding:4px 8px;border-radius:999px;color:var(--muted);font-size:12px}
+.editor-wrap{display:flex;gap:14px;min-height:calc(100vh - 110px)}.editor-side{width:250px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;overflow:auto}.editor-main{flex:1;min-width:0}
+.editor-toolbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}.editor-toolbar select{width:auto}.editor-toolbar input{flex:1;min-width:150px}
+.paper{background:var(--paper);color:var(--ink);min-height:720px;padding:70px 9%;border-radius:4px;box-shadow:0 8px 30px #0005;position:relative}
+.paper.ruled{background-color:#fff; background-image:linear-gradient(#d9e2ef 1px,transparent 1px);background-size:100% 32px}
+.paper.darkpaper{background:#1c1d21;color:#f2efe8}.paper.scriptpaper{font-family:Courier New,monospace}
+.paper .chapter-title{text-align:center;font:700 42px Georgia,serif;margin-bottom:50px}.paper .page-number{position:absolute;right:35px;bottom:22px;color:#777}
+.editor{min-height:560px;outline:none;white-space:pre-wrap;font:20px/1.75 Georgia,serif}.scriptpaper .editor{font:16px/1.5 "Courier New",monospace}.darkpaper .editor{color:#eee}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:13px}.meta b{color:var(--text)}
+.chapter-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}.chapter{display:flex;gap:5px}.chapter button:first-child{flex:1;text-align:left}
+.help{border:1px solid var(--line);background:var(--panel2);padding:12px;border-radius:12px;margin-top:12px}
+.suggestion{border-left:3px solid var(--accent);padding:9px 10px;margin:7px 0;background:#111319;border-radius:0 8px 8px 0}.suggestion button{padding:5px 8px;margin-left:5px}
+.modal{position:fixed;inset:0;background:#0009;display:grid;place-items:center;z-index:50;padding:20px}.modalbox{width:min(650px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#252832;border:1px solid var(--line);padding:10px 15px;border-radius:999px;z-index:100;box-shadow:0 8px 30px #0008}
+@media(max-width:800px){.sidebar{width:64px;padding:8px}.sidebar .navtext,.sidebar .brandtext{display:none}.navbtn{text-align:center;padding:12px 5px}.main{padding:12px}.editor-wrap{display:block}.editor-side{width:100%;margin-bottom:10px}.paper{padding:45px 28px;min-height:650px}.paper .chapter-title{font-size:32px;margin-bottom:35px}.editor{font-size:18px}.top{height:58px}.logo{font-size:17px}}
+@media print{body{background:white!important}.top,.sidebar,.editor-side,.editor-toolbar,.meta,.help,.no-print{display:none!important}.layout,.main,.view,.editor-wrap,.editor-main{display:block!important;overflow:visible!important;padding:0!important}.paper{box-shadow:none!important;border-radius:0!important;min-height:auto!important;padding:60px 65px!important;color:#222!important;background:#fff!important}.editor{font-size:13pt!important;line-height:1.6!important}.page-number{position:fixed!important}.paper.ruled{background-image:linear-gradient(#ddd 1px,transparent 1px)!important}.paper.darkpaper{background:#fff!important;color:#222!important}}
+</style>
+</head>
 <body>
 <div class="app">
-<aside class="sidebar"><div class="brand">Story<span>Forge</span></div><div class="nav"><button class="primary" id="newBtn">＋ New Project</button><button data-filter="all">🏠 All Projects</button><button data-filter="movie">🎬 Movies</button><button data-filter="anime">📺 Anime</button><button data-filter="book">📚 Books</button><button data-filter="summary">📝 Summaries</button><button data-filter="free">✍️ Free Writing</button></div><div class="section-title">Projects</div><div id="projects" class="projects"></div></aside>
-<main class="main"><header class="top"><div class="title"><input id="projectTitle" value="Untitled Project"></div><div class="toolrow"><button id="saveBtn">💾 Save</button><button id="exportTxt">TXT</button><button id="exportPdf">PDF</button><button id="formatBtn">Format</button></div></header><div class="editor-wrap"><section id="paper" class="paper book"><h1 id="pageHeading">Chapter 1</h1><textarea id="editor" spellcheck="true" placeholder="Start writing..."></textarea></section></div><footer class="bottom"><span id="saveStatus">Saved locally</span><span id="words">0 words</span><span id="chars">0 characters</span><span id="readtime">0 min read</span></footer></main>
-<aside class="right"><div class="card"><h3>Project</h3><div class="stat"><span>Type</span><b id="typeStat">Book</b></div><div class="stat"><span>Words</span><b id="words2">0</b></div><div class="stat"><span>Characters</span><b id="chars2">0</b></div><div class="stat"><span>Reading time</span><b id="time2">0 min</b></div></div><div class="card"><h3>Writing help</h3><button id="checkBtn" style="width:100%">✓ Check writing</button><div id="suggestions"></div></div><div class="card"><h3>Page style</h3><select id="styleSelect" style="width:100%;padding:9px;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px"><option value="book">Book</option><option value="ruled">Ruled</option><option value="script">Screenplay</option></select></div><div class="card"><h3>Quick tools</h3><div class="toolrow"><button id="chapterBtn">＋ Chapter</button><button id="sceneBtn">＋ Scene</button><button id="clearBtn">Clear</button></div></div></aside>
-</div>
-<div class="modal" id="modal"><div class="dialog"><h2>New Project</h2><label>Title</label><input id="newTitle" placeholder="My Story"><label>Type</label><select id="newType"><option value="movie">Movie Script</option><option value="anime">Anime Script</option><option value="book" selected>Book / Novel</option><option value="summary">Summary</option><option value="free">Free Writing</option></select><div class="dialog-actions"><button id="cancel">Cancel</button><button class="primary" id="create">Create</button></div></div></div><div class="toast" id="toast"></div>
+<header class="top">
+  <div class="logo">Story<span>Forge</span></div>
+  <button class="icon" id="saveBtn" title="Save">💾</button>
+  <button class="icon" id="undoBtn" title="Undo">↶</button>
+  <button class="icon" id="redoBtn" title="Redo">↷</button>
+  <button class="icon" id="themeBtn" title="Theme">◐</button>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <button class="navbtn active" data-view="home">🏠 <span class="navtext">Home</span></button>
+  <button class="navbtn" data-view="projects">📚 <span class="navtext">Projects</span></button>
+  <button class="navbtn" data-view="editor">✍️ <span class="navtext">Editor</span></button>
+  <button class="navbtn" data-view="assist">✨ <span class="navtext">Writing Assistant</span></button>
+  <button class="navbtn" data-view="settings">⚙️ <span class="navtext">Settings</span></button>
+</aside>
+<main class="main">
+<section id="home" class="view">
+  <div class="toolbar"><div><h1>Your writing studio</h1><div class="muted">Write books, movies, anime, screenplays, summaries and anything else — offline.</div></div><div class="grow"></div><button class="primary" onclick="newProject()">＋ New Project</button></div>
+  <div class="cards" id="stats"></div>
+  <h2 style="margin-top:24px">Start writing</h2>
+  <div class="cards">
+    <div class="card"><h3>📚 Book / Novel</h3><p class="muted">Chapters, book pages, ruled pages, title and author.</p><button onclick="newProject('book')">Create book</button></div>
+    <div class="card"><h3>🎬 Movie Script</h3><p class="muted">Scenes, action, characters, dialogue and transitions.</p><button onclick="newProject('movie')">Create movie</button></div>
+    <div class="card"><h3>📺 Anime Script</h3><p class="muted">Episodes, narration, scenes and character dialogue.</p><button onclick="newProject('anime')">Create anime</button></div>
+    <div class="card"><h3>📝 Summary</h3><p class="muted">Topic, key points and short/long summaries.</p><button onclick="newProject('summary')">Create summary</button></div>
+    <div class="card"><h3>✍️ Free Writing</h3><p class="muted">A completely customizable writing space.</p><button onclick="newProject('free')">Start writing</button></div>
+  </div>
+  <div class="help"><b>Offline first:</b> projects are saved in this device's browser/app storage. Nothing is uploaded by StoryForge.</div>
+</section>
+
+<section id="projects" class="view hidden">
+  <div class="toolbar"><h1>Projects</h1><div class="grow"></div><input id="projectSearch" placeholder="Search projects…" oninput="renderProjects()"><button class="primary" onclick="newProject()">＋ New</button></div>
+  <div class="project-grid" id="projectGrid"></div>
+</section>
+
+<section id="editor" class="view hidden">
+  <div id="editorRoot"></div>
+</section>
+
+<section id="assist" class="view hidden">
+  <div class="toolbar"><div><h1>Writing Assistant</h1><div class="muted">Offline checks for common spelling, grammar and punctuation issues.</div></div></div>
+  <textarea id="assistText" style="width:100%;min-height:300px" placeholder="Paste or type text here…"></textarea>
+  <div class="toolbar" style="margin-top:10px"><button class="primary" onclick="runAssistant()">Check writing</button><button onclick="copyAssistant()">Copy</button></div>
+  <div id="assistResults"></div>
+</section>
+
+<section id="settings" class="view hidden">
+  <h1>Settings</h1>
+  <div class="card">
+    <h3>Editor preferences</h3>
+    <div class="row">
+      <label>Default page style<select id="defaultStyle"><option value="book">Book</option><option value="ruled">Ruled</option><option value="script">Script</option><option value="dark">Dark</option></select></label>
+      <label>Font size<input id="fontSize" type="number" min="14" max="30" value="20"></label>
+    </div>
+    <p><label><input id="autosave" type="checkbox" checked> Auto-save while typing</label></p>
+    <button class="primary" onclick="saveSettings()">Save settings</button>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <h3>Backup</h3><p class="muted">Export all projects to one JSON backup file or restore a backup later.</p>
+    <div class="row"><button onclick="backupAll()">Export backup</button><button onclick="document.getElementById('restoreInput').click()">Restore backup</button></div>
+    <input id="restoreInput" type="file" accept=".json" class="hidden" onchange="restoreBackup(event)">
+  </div>
+  <div class="card" style="margin-top:12px"><h3>Danger zone</h3><button onclick="clearAll()">Delete all local projects</button></div>
+</section>
+</main></div></div>
+
+<div id="modal" class="modal hidden"><div class="modalbox" id="modalBox"></div></div>
+<div id="toast" class="toast hidden"></div>
+
 <script>
-const KEY='storyforge.projects.v1';let projects=JSON.parse(localStorage.getItem(KEY)||'[]');let currentId=null,filter='all';
-const $=id=>document.getElementById(id);function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2)}
-function saveAll(){localStorage.setItem(KEY,JSON.stringify(projects))}function current(){return projects.find(p=>p.id===currentId)}
-function seed(){if(!projects.length){projects=[{id:uid(),title:'My First Story',type:'book',style:'book',heading:'Chapter 1',text:'Start writing your story here...\n\nStoryForge saves your work locally on this device.' ,updated:Date.now()}];currentId=projects[0].id;saveAll()}else currentId=projects[0].id}
-function renderProjects(){let list=projects.filter(p=>filter==='all'||p.type===filter);$('projects').innerHTML=list.map(p=>`<div class="project ${p.id===currentId?'active':''}" data-id="${p.id}">${icon(p.type)} ${esc(p.title||'Untitled')}</div>`).join('');document.querySelectorAll('.project').forEach(x=>x.onclick=()=>{currentId=x.dataset.id;load();renderProjects()})}
-function icon(t){return {movie:'🎬',anime:'📺',book:'📚',summary:'📝',free:'✍️'}[t]||'📄'}function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function load(){let p=current();if(!p)return;$('projectTitle').value=p.title;$('editor').value=p.text;$('pageHeading').textContent=p.heading||defaultHeading(p.type);$('styleSelect').value=p.style||'book';applyStyle();stats();$('typeStat').textContent=label(p.type);$('saveStatus').textContent='Saved locally'}
-function label(t){return {movie:'Movie Script',anime:'Anime Script',book:'Book / Novel',summary:'Summary',free:'Free Writing'}[t]}function defaultHeading(t){return t==='summary'?'Summary':t==='movie'||t==='anime'?'SCENE 1':'Chapter 1'}
-function sync(){let p=current();if(!p)return;p.title=$('projectTitle').value;p.text=$('editor').value;p.style=$('styleSelect').value;p.updated=Date.now();saveAll();stats();$('saveStatus').textContent='Saved just now'}
-function stats(){let t=$('editor').value.trim();let w=t?t.split(/\s+/).length:0,c=$('editor').value.length,m=Math.max(0,Math.ceil(w/200));$('words').textContent=w+' words';$('chars').textContent=c+' characters';$('readtime').textContent=m+' min read';$('words2').textContent=w;$('chars2').textContent=c;$('time2').textContent=m+' min'}
-function applyStyle(){let s=$('styleSelect').value;$('paper').className='paper '+s}
-function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800)}
-$('editor').addEventListener('input',sync);$('projectTitle').addEventListener('input',sync);$('styleSelect').addEventListener('change',()=>{sync();applyStyle()});$('saveBtn').onclick=()=>{sync();toast('Saved locally')};
-$('newBtn').onclick=()=>{$('modal').classList.add('show');$('newTitle').focus()};$('cancel').onclick=()=>$('modal').classList.remove('show');$('create').onclick=()=>{let title=$('newTitle').value.trim()||'Untitled Project',type=$('newType').value;let p={id:uid(),title,type,style:type==='movie'||type==='anime'?'script':'book',heading:defaultHeading(type),text:'',updated:Date.now()};projects.unshift(p);currentId=p.id;saveAll();$('modal').classList.remove('show');$('newTitle').value='';load();renderProjects();toast('Project created')};
-document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;renderProjects()});$('formatBtn').onclick=()=>{let t=$('editor').value.replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n');$('editor').value=t;sync();toast('Text formatted')};
-$('chapterBtn').onclick=()=>{let n=Number((current().heading||'Chapter 1').match(/\d+/)?.[0]||1)+1;current().heading='Chapter '+n;current().text+='\n\n';load();sync();toast('New chapter')};$('sceneBtn').onclick=()=>{let p=current();p.text+='\n\nSCENE '+(p.text.match(/SCENE \d+/g)?.length+1||1)+'\n\n';sync();$('editor').focus()};$('clearBtn').onclick=()=>{if(confirm('Clear this project text?')){$('editor').value='';sync()}};
-$('checkBtn').onclick=()=>{let t=$('editor').value,s=[];if(/\bi\b/.test(t))s.push('Consider capitalizing “I”.');if(/\s+[,.!?]/.test(t))s.push('Remove spaces before punctuation.');if(/\b(very very|really really)\b/i.test(t))s.push('Consider replacing repeated intensifiers with a stronger word.');if(/ {2,}/.test(t))s.push('There are multiple spaces.');if(!s.length)s.push('No obvious basic issues found. Browser spellcheck is also active while you type.');$('suggestions').innerHTML=s.map(x=>`<div class="suggestion">${esc(x)}</div>`).join('')};
-function download(name,data,type){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();URL.revokeObjectURL(a.href)}$('exportTxt').onclick=()=>{let p=current();download((p.title||'story')+'.txt',p.text,'text/plain;charset=utf-8');toast('TXT exported')};$('exportPdf').onclick=()=>{let p=current();let old=document.title;document.title=p.title||'StoryForge';window.print();document.title=old};
-window.addEventListener('beforeprint',()=>{$('editor').style.minHeight='auto'});window.addEventListener('afterprint',()=>{$('editor').style.minHeight='650px'});if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});seed();load();renderProjects();
-</script></body></html>
+const KEY='storyforge.projects.v2', SET='storyforge.settings.v2';
+let projects=JSON.parse(localStorage.getItem(KEY)||'[]');
+let settings=Object.assign({defaultStyle:'book',fontSize:20,autosave:true,theme:'dark'},JSON.parse(localStorage.getItem(SET)||'{}'));
+let current=null, history=[], future=[], saveTimer=null;
+
+const TYPES={book:'📚 Book / Novel',movie:'🎬 Movie Script',anime:'📺 Anime Script',summary:'📝 Summary',free:'✍️ Free Writing'};
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function persist(){localStorage.setItem(KEY,JSON.stringify(projects));renderStats();renderProjects()}
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.remove('hidden');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.add('hidden'),1800)}
+function showView(v){document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));document.getElementById(v).classList.remove('hidden');document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));if(v==='projects')renderProjects();if(v==='home')renderStats();if(v==='editor')renderEditor()}
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>showView(b.dataset.view));
+
+function renderStats(){const words=projects.reduce((a,p)=>a+countWords(p.content),0);document.getElementById('stats').innerHTML=
+`<div class="card"><div class="muted">Projects</div><div class="stat">${projects.length}</div></div>
+<div class="card"><div class="muted">Words written</div><div class="stat">${words.toLocaleString()}</div></div>
+<div class="card"><div class="muted">Characters</div><div class="stat">${projects.reduce((a,p)=>a+(p.content||'').length,0).toLocaleString()}</div></div>
+<div class="card"><div class="muted">Reading time</div><div class="stat">${Math.max(0,Math.ceil(words/220))} min</div></div>`}
+function countWords(t){return (t||'').trim()?t.trim().split(/\s+/).length:0}
+
+function newProject(type='book'){
+ const p={id:uid(),title:type==='book'?'Untitled Book':`Untitled ${TYPES[type]||'Project'}`,type,author:'',content:'',style:settings.defaultStyle,created:Date.now(),updated:Date.now(),chapters:[{id:uid(),title:type==='movie'?'Scene 1':type==='anime'?'Episode 1':'Chapter 1',content:''}]};
+ projects.unshift(p);current=p.id;persist();showView('editor');renderEditor();openProjectMeta(true)
+}
+function renderProjects(){
+ const q=(document.getElementById('projectSearch')?.value||'').toLowerCase();
+ const arr=projects.filter(p=>(p.title+' '+TYPES[p.type]).toLowerCase().includes(q));
+ document.getElementById('projectGrid').innerHTML=arr.map(p=>`<div class="card project">
+ <div><span class="pill">${TYPES[p.type]||p.type}</span><h3 style="margin-top:10px">${esc(p.title)}</h3><div class="muted">${countWords(p.content).toLocaleString()} words · ${new Date(p.updated).toLocaleDateString()}</div></div>
+ <div class="actions"><button onclick="openProject('${p.id}')">Open</button><button onclick="duplicateProject('${p.id}')">Copy</button><button onclick="deleteProject('${p.id}')">Delete</button></div></div>`).join('')||'<div class="card"><h3>No projects yet</h3><p class="muted">Create your first project.</p></div>'
+}
+function openProject(id){current=id;history=[];future=[];showView('editor');renderEditor()}
+function duplicateProject(id){const p=projects.find(x=>x.id===id), n=JSON.parse(JSON.stringify(p));n.id=uid();n.title=p.title+' Copy';n.updated=Date.now();projects.unshift(n);persist();toast('Project duplicated')}
+function deleteProject(id){if(confirm('Delete this project from this device?')){projects=projects.filter(p=>p.id!==id);if(current===id)current=null;persist();renderProjects();toast('Deleted')}}
+function getP(){return projects.find(p=>p.id===current)}
+function snapshot(){const p=getP();if(p)history.push(JSON.stringify({content:p.content,chapters:p.chapters,style:p.style,title:p.title,author:p.author}));if(history.length>50)history.shift();future=[]}
+function restoreState(s){const p=getP();if(!p)return;const x=JSON.parse(s);Object.assign(p,x);p.updated=Date.now();persist();renderEditor()}
+function undo(){if(!history.length)return;const p=getP();future.push(JSON.stringify({content:p.content,chapters:p.chapters,style:p.style,title:p.title,author:p.author}));restoreState(history.pop())}
+function redo(){if(!future.length)return;const p=getP();history.push(JSON.stringify({content:p.content,chapters:p.chapters,style:p.style,title:p.title,author:p.author}));restoreState(future.pop())}
+document.getElementById('undoBtn').onclick=undo;document.getElementById('redoBtn').onclick=redo;document.getElementById('saveBtn').onclick=()=>{saveCurrent();toast('Saved on this device')};
+
+function renderEditor(){
+ const root=document.getElementById('editorRoot'),p=getP();
+ if(!p){root.innerHTML='<div class="card"><h2>No project selected</h2><button class="primary" onclick="newProject()">Create project</button></div>';return}
+ const ch=p.chapters.find(x=>x.id===p.activeChapter)||p.chapters[0];p.activeChapter=ch.id;
+ root.innerHTML=`<div class="toolbar no-print"><button onclick="showView('projects')">← Projects</button><input id="titleInput" value="${esc(p.title)}" onchange="editMeta('title',this.value)"><button onclick="openProjectMeta()">Details</button><button class="primary" onclick="saveCurrent()">💾 Save</button><button onclick="exportTXT()">TXT</button><button onclick="printPDF()">PDF / Print</button></div>
+ <div class="editor-wrap">
+ <aside class="editor-side no-print">
+  <h3>${TYPES[p.type]}</h3>
+  <button class="primary" style="width:100%" onclick="addChapter()">${p.type==='movie'?'＋ Scene':p.type==='anime'?'＋ Episode':'＋ Chapter'}</button>
+  <div class="chapter-list">${p.chapters.map((c,i)=>`<div class="chapter"><button onclick="selectChapter('${c.id}')">${i+1}. ${esc(c.title)}</button><button onclick="renameChapter('${c.id}')">✎</button></div>`).join('')}</div>
+  <hr style="border-color:var(--line);margin:14px 0">
+  <label>Page style<select id="styleSelect" onchange="changeStyle(this.value)"><option value="book">Book</option><option value="ruled">Ruled</option><option value="script">Script</option><option value="dark">Dark</option></select></label>
+  <div class="help"><b>Writing tip</b><br><span class="muted">Use Ctrl/Cmd-style undo buttons above. Your text is stored locally.</span></div>
+  <div style="margin-top:12px"><button onclick="runCurrentCheck()">✨ Check grammar</button></div>
+ </aside>
+ <section class="editor-main">
+  <div class="editor-toolbar no-print">
+   ${p.type==='movie'||p.type==='anime'?'<select id="insertType"><option value="">Insert…</option><option value="scene">Scene heading</option><option value="action">Action</option><option value="character">Character</option><option value="dialogue">Dialogue</option><option value="transition">Transition</option></select><button onclick="insertTemplate()">Insert</button>':''}
+   <button onclick="formatText('bold')"><b>B</b></button><button onclick="formatText('italic')"><i>I</i></button><button onclick="formatText('heading')">H</button><button onclick="insertText('—')">—</button>
+   <span class="muted" id="saveStatus"></span>
+  </div>
+  <article class="paper ${p.style==='ruled'?'ruled':''} ${p.style==='dark'?'darkpaper':''} ${p.style==='script'?'scriptpaper':''}">
+   <div class="chapter-title">${esc(ch.title)}</div>
+   <div id="editorText" class="editor" contenteditable="true" spellcheck="true">${esc(ch.content||'')}</div>
+   <div class="page-number">1</div>
+  </article>
+  <div class="meta"><span>Words: <b id="wordCount">0</b></span><span>Characters: <b id="charCount">0</b></span><span>Reading: <b id="readTime">0 min</b></span><span>Autosave: <b>${settings.autosave?'ON':'OFF'}</b></span></div>
+  <div id="checkResults"></div>
+ </section></div>`;
+ document.getElementById('styleSelect').value=p.style;
+ const ed=document.getElementById('editorText');ed.style.fontSize=settings.fontSize+'px';ed.addEventListener('input',()=>{snapshotLimited();ch.content=ed.innerText;p.content=p.chapters.map(x=>x.content).join('\\n\\n');p.updated=Date.now();updateCounts();if(settings.autosave){clearTimeout(saveTimer);saveTimer=setTimeout(saveCurrent,700)}});
+ updateCounts();
+}
+function snapshotLimited(){const p=getP();if(!p)return;const ed=document.getElementById('editorText');if(!ed)return; if(!snapshotLimited.last) snapshotLimited.last=ed.innerText; if(snapshotLimited.last!==ed.innerText){history.push(JSON.stringify({content:p.content,chapters:p.chapters,style:p.style,title:p.title,author:p.author}));snapshotLimited.last=ed.innerText;if(history.length>50)history.shift();future=[]}}
+function updateCounts(){const ed=document.getElementById('editorText');if(!ed)return;const t=ed.innerText;document.getElementById('wordCount').textContent=countWords(t).toLocaleString();document.getElementById('charCount').textContent=t.length.toLocaleString();document.getElementById('readTime').textContent=Math.max(0,Math.ceil(countWords(t)/220))+' min'}
+function selectChapter(id){const p=getP();p.activeChapter=id;p.updated=Date.now();persist();renderEditor()}
+function addChapter(){const p=getP();const n=p.chapters.length+1;const title=p.type==='movie'?`Scene ${n}`:p.type==='anime'?`Episode ${n}`:`Chapter ${n}`;p.chapters.push({id:uid(),title,content:''});p.activeChapter=p.chapters.at(-1).id;p.updated=Date.now();persist();renderEditor()}
+function renameChapter(id){const c=getP().chapters.find(x=>x.id===id);const n=prompt('Name',c.title);if(n){snapshot();c.title=n;persist();renderEditor()}}
+function changeStyle(v){const p=getP();snapshot();p.style=v;p.updated=Date.now();persist();renderEditor()}
+function editMeta(k,v){const p=getP();snapshot();p[k]=v;p.updated=Date.now();persist();renderEditor()}
+function saveCurrent(){const p=getP();if(!p)return;const ed=document.getElementById('editorText'),ch=p.chapters.find(x=>x.id===p.activeChapter);if(ed&&ch){ch.content=ed.innerText;p.content=p.chapters.map(x=>x.content).join('\\n\\n')}p.updated=Date.now();persist();const s=document.getElementById('saveStatus');if(s)s.textContent='Saved ✓';}
+function openProjectMeta(initial=false){
+ const p=getP();if(!p)return;
+ document.getElementById('modal').classList.remove('hidden');document.getElementById('modalBox').innerHTML=`<h2>Project details</h2>
+ <label>Title<input id="mTitle" value="${esc(p.title)}" style="width:100%;margin:5px 0 12px"></label>
+ <label>Author<input id="mAuthor" value="${esc(p.author)}" style="width:100%;margin:5px 0 12px"></label>
+ <label>Type<select id="mType" style="width:100%;margin:5px 0 12px">${Object.entries(TYPES).map(([k,v])=>`<option value="${k}" ${p.type===k?'selected':''}>${v}</option>`).join('')}</select></label>
+ <div class="row"><button onclick="closeModal()">Cancel</button><button class="primary" onclick="saveMeta()">Save</button></div>`;
+}
+function closeModal(){document.getElementById('modal').classList.add('hidden')}
+function saveMeta(){const p=getP();snapshot();p.title=document.getElementById('mTitle').value||'Untitled';p.author=document.getElementById('mAuthor').value;p.type=document.getElementById('mType').value;persist();closeModal();renderEditor()}
+function formatText(cmd){document.execCommand(cmd,false,null);document.getElementById('editorText')?.focus()}
+function insertText(t){document.execCommand('insertText',false,t);document.getElementById('editorText')?.focus()}
+function insertTemplate(){const t=document.getElementById('insertType')?.value;if(!t)return;const map={scene:'INT./EXT. LOCATION — DAY\\n',action:'Action description goes here.\\n',character:'CHARACTER NAME\\n',dialogue:'Dialogue goes here.\\n',transition:'CUT TO:\\n'};insertText(map[t]||'')}
+function exportTXT(){const p=getP();if(!p)return;const text=`${p.title}\\n${p.author?'By '+p.author+'\\n':''}\\n${p.chapters.map(c=>c.title+'\\n\\n'+c.content).join('\\n\\n')}\\n`;download(text,safeName(p.title)+'.txt','text/plain;charset=utf-8')}
+function safeName(s){return (s||'StoryForge').replace(/[\\\\/:*?"<>|]/g,'_').trim()||'StoryForge'}
+function printPDF(){saveCurrent();setTimeout(()=>window.print(),100)}
+function download(data,name,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function runCurrentCheck(){const p=getP();const ed=document.getElementById('editorText');if(!p||!ed)return;const r=checkText(ed.innerText);document.getElementById('checkResults').innerHTML='<div class="card" style="margin-top:12px"><h3>Suggestions</h3>'+r.html+'</div>'}
+function checkText(t){
+ const out=[];const rules=[[/\\bi\\b/g,'I','Capitalise the pronoun “I”.'],[/\\bteh\\b/gi,'the','Possible spelling mistake.'],[/\\brecieve\\b/gi,'receive','Possible spelling mistake.'],[/\\bseperate\\b/gi,'separate','Possible spelling mistake.'],[/\\bdefinately\\b/gi,'definitely','Possible spelling mistake.'],[/\\btheir\\s+is\\b/gi,'there is','Possible grammar issue.'],[/\\byour\\s+welcome\\b/gi,"you're welcome",'Possible grammar issue.'],[/\\s+([,.!?])/g,'$1','Remove the space before punctuation.'],[/([.!?])([A-Za-z])/g,'$1 $2','Add a space after punctuation.']];
+ for(const [re,rep,msg] of rules) if(re.test(t)) out.push({msg,rep});
+ if(!t.trim())out.push({msg:'There is no text to check.',rep:''});
+ return {html:out.length?out.map((x,i)=>`<div class="suggestion">${esc(x.msg)} ${x.rep?`<button onclick="applyGlobal(${JSON.stringify(x.rep)})">Apply</button>`:''}</div>`).join(''):'<div class="muted">No obvious issues found by the offline checker.</div>'}
+}
+function applyGlobal(rep){const ed=document.getElementById('editorText');if(!ed)return;let t=ed.innerText;t=t.replace(/\\bteh\\b/gi,rep).replace(/\\brecieve\\b/gi,rep).replace(/\\bseperate\\b/gi,rep).replace(/\\bdefinately\\b/gi,rep);ed.innerText=t;ed.dispatchEvent(new Event('input'));runCurrentCheck()}
+function runAssistant(){const t=document.getElementById('assistText').value;const r=checkText(t);document.getElementById('assistResults').innerHTML='<div class="card" style="margin-top:12px"><h3>Results</h3>'+r.html+'</div>'}
+function copyAssistant(){navigator.clipboard?.writeText(document.getElementById('assistText').value);toast('Copied')}
+function backupAll(){download(JSON.stringify({version:2,exported:new Date().toISOString(),projects,settings},null,2),'StoryForge-backup.json','application/json')}
+function restoreBackup(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(Array.isArray(x.projects)){projects=x.projects;persist();toast('Backup restored')}}catch{alert('Invalid backup')}};r.readAsText(f)}
+function clearAll(){if(confirm('Delete ALL StoryForge projects from this device? This cannot be undone.')){projects=[];current=null;persist();showView('home');toast('All projects deleted')}}
+function saveSettings(){settings.defaultStyle=document.getElementById('defaultStyle').value;settings.fontSize=+document.getElementById('fontSize').value||20;settings.autosave=document.getElementById('autosave').checked;localStorage.setItem(SET,JSON.stringify(settings));toast('Settings saved');if(getP())renderEditor()}
+document.getElementById('themeBtn').onclick=()=>{settings.theme=settings.theme==='dark'?'light':'dark';document.body.style.setProperty('--bg',settings.theme==='dark'?'#101116':'#f1f2f5');document.body.style.setProperty('--panel',settings.theme==='dark'?'#171920':'#fff');document.body.style.setProperty('--panel2',settings.theme==='dark'?'#1e212a':'#f5f5f7');document.body.style.setProperty('--text',settings.theme==='dark'?'#f5f3ee':'#17181c');localStorage.setItem(SET,JSON.stringify(settings))}
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();saveCurrent();toast('Saved')}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo()}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo()}})
+function init(){document.getElementById('defaultStyle').value=settings.defaultStyle;document.getElementById('fontSize').value=settings.fontSize;document.getElementById('autosave').checked=settings.autosave;renderStats();renderProjects();if(!projects.length)newProject('book');else showView('home')}
+init();
+</script>
+</body></html>
