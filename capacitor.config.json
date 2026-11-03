@@ -1,0 +1,9 @@
+{
+  "appId": "com.storyforge.writer",
+  "appName": "StoryForge",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}

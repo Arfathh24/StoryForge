@@ -1,0 +1,15 @@
+{
+  "name": "storyforge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "StoryForge offline writing app",
+  "scripts": {
+    "build:web": "node -e \"console.log('StoryForge web assets ready')\"",
+    "build:android": "npm run build:web && npx cap sync android && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "latest",
+    "@capacitor/cli": "latest",
+    "@capacitor/core": "latest"
+  }
+}
