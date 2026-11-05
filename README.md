@@ -22,3 +22,4 @@ APK build:
 3. Ensure `.github/workflows/build-apk.yml` exists.
 4. Open Actions and run Build StoryForge APK.
 5. Download the `StoryForge-debug-apk` artifact.
+\n## Windows desktop app\nRun GitHub Actions → Build StoryForge for Windows → Run workflow. Download the StoryForge-Windows artifact; it contains an installer and portable EXE.\n
