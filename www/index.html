@@ -99,6 +99,8 @@ input,select{background:#12141a;border:1px solid var(--l);border-radius:10px;hei
 .lf,.lb{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden}.lb{transform:rotateY(180deg)}
 .lf>.pg,.lb>.pg,.under>.pg{position:absolute;inset:0;border-radius:0}
 .lf::after,.lb::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0000,#0005);opacity:0;animation:shd .8s ease-in-out}@keyframes shd{50%{opacity:1}}
+.ic{flex-direction:column;align-items:stretch;gap:6px}.cx{font:13px/1.55 Georgia,serif;word-break:break-word}.sg mark{background:#e8b86a66;color:inherit;border-radius:3px;padding:0 2px}.panel .row button{height:32px}
+.cvp{display:grid;place-items:center}.cvp img{max-height:230px;max-width:100%;border-radius:6px;box-shadow:0 10px 28px #000a}
 </style></head><body>
 <div id="app">
 <div class="v on" id="lib">
@@ -106,7 +108,7 @@ input,select{background:#12141a;border:1px solid var(--l);border-radius:10px;hei
  <div class="pad"><div class="hero"><h1>What will you write today?</h1><p>Start a new piece, then tap Save — it joins your library once saved. Everything stays on this device.</p></div><div class="tiles" id="tiles"></div><div class="sec"><h2>My Writing</h2><div class="chips" id="chips"></div><div class="g"></div><div class="vt"><button data-v="grid" title="Covers">▦</button><button data-v="list" title="List">☰</button></div></div><div class="grid" id="grid"></div></div>
  </div>
 <div class="v" id="ed">
- <div class="bar"><button id="home" title="Library">←</button><input id="ti" class="g" aria-label="Title"><button id="un" title="Undo">↶</button><button id="re" title="Redo">↷</button><button id="ai" title="Writing assistant">✨</button><button id="aa" title="Page and text">Aa</button><button id="ex" title="Export">⤓</button><button id="sv" class="pr" title="Save to library">Save</button></div>
+ <div class="bar"><button id="home" title="Library">←</button><input id="ti" class="g" aria-label="Title"><button id="un" title="Undo">↶</button><button id="re" title="Redo">↷</button><button id="ai" title="Writing assistant">✨</button><button id="cvb" title="Book cover">🖼</button><button id="aa" title="Page and text">Aa</button><button id="ex" title="Export">⤓</button><button id="sv" class="pr" title="Save to library">Save</button></div>
  <div class="bar" id="els" style="overflow:hidden"></div>
  <div id="stage"><div class="pgw" id="pgw"><div class="book" id="bk2"><div class="pg l"><div class="hd"></div><textarea class="ta" spellcheck="true" aria-label="Left page"></textarea><div class="pn"></div></div><div class="pg r"><div class="hd"></div><textarea class="ta" spellcheck="true" aria-label="Right page"></textarea><div class="pn"></div></div></div></div><div class="panel" id="as"></div></div>
  <div class="bar b"><select id="chs" class="g" aria-label="Section"></select><button id="ca" title="Add section">＋</button><button id="cr" title="Rename">✎</button><button id="cd" title="Delete">🗑</button><button id="pv">‹</button><span id="pl" class="m" style="min-width:58px;text-align:center"></span><button id="nx">›</button><span class="sts m" id="sts"></span></div>
@@ -163,8 +165,7 @@ function pag(t,p){const g=geo(p),r=[0];let s=0,f=1;sty(ms,p,g,0);
   r.push(s=e);f=0}}
 function cnt(c){const o=PC[c.id];if(o&&o.t===c.content)return o.n;const n=c===C?st.length:pag(c.content,P).length;PC[c.id]={t:c.content,n};return n}
 function base(){let n=0;for(const c of P.chapters){if(c===C)break;n+=cnt(c)}return n}
-function hdr(c,i){if(P.type==='book'){const t=c.title&&!/^chapter \d+$/i.test(c.title)?`<small>${esc(c.title)}</small>`:'';return`CHAPTER ${i+1}${t}`}
- if(P.type==='anime'){const t=c.title&&!/^episode \d+$/i.test(c.title)?`<small>${esc(c.title)}</small>`:'';return`EPISODE ${i+1}${t}`}return esc(c.title.toUpperCase())}
+function hdr(c,i){const u=P.type==='book'?'CHAPTER':P.type==='anime'?'EPISODE':'';if(u&&(!c.title||/^(chapter|episode) \d+$/i.test(c.title)))return`${u} ${i+1}`;return esc(c.title.toUpperCase())}
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function openAnim(h,col,fn){if(RM||document.getElementById('ov'))return fn();const o=document.createElement('div');o.id='ov';
  o.innerHTML=`<div class="big" style="--c:${col}"><div class="bigbd"><div class="ipg"></div><div class="cvr"><div class="fr">${h}</div><div class="in"></div></div></div></div>`;document.body.appendChild(o);
@@ -203,7 +204,7 @@ tas.forEach(t=>{t.addEventListener('input',e=>{if(t===ta&&!e.isComposing)h()});t
  t.addEventListener('keydown',e=>{if(t!==ta||e.ctrlKey||e.metaKey)return;const k=e.key,s=ta.selectionStart,z=ta.selectionEnd===s;
   if(z&&k==='ArrowRight'&&s===ta.value.length&&cur<st.length-1){e.preventDefault();step(1,0)}else if(z&&(k==='ArrowLeft'||k==='Backspace')&&s===0&&cur>0){e.preventDefault();step(-1,1)}})});
 function snap(){if(C.content!==last){H.push(last);if(H.length>80)H.shift();F=[];last=C.content}}
-function setC(t){C.content=t;last=t;st=pag(t,P);go(t.length);sv=0;clearTimeout(sn);sn=setTimeout(()=>{persist();info()},400)}
+function setC(t,a){C.content=t;last=t;st=pag(t,P);go(a==null?t.length:a);sv=0;clearTimeout(sn);sn=setTimeout(()=>{persist();info()},400)}
 function undo(){snap();if(!H.length)return;F.push(C.content);setC(H.pop())}function redo(){if(!F.length)return;H.push(C.content);setC(F.pop())}
 $('#un').onclick=undo;$('#re').onclick=redo;$('#pv').onclick=()=>flip(-1);$('#nx').onclick=()=>flip(1);
 document.addEventListener('keydown',e=>{if(!$('#ed').classList.contains('on')||!(e.ctrlKey||e.metaKey))return;const q=e.key.toLowerCase();
@@ -237,7 +238,9 @@ $('#home').onclick=()=>{if(D.includes(P))return goLib();if(pw(P)===0){P=null;loc
  modal(`<h3>Save “${esc(P.title)}”?</h3><div class="m">It will only appear in your library once saved.</div><div class="bt"><button class="pr" data-a="sl">Save</button><button data-a="dc">Discard</button></div><button data-x>Keep writing</button>`)};
 /* page & text settings */
 function opts(o,v){return Object.entries(o).map(([k,l])=>`<option value="${k}" ${String(v)===k?'selected':''}>${l}</option>`).join('')}
-function cover(file){const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,520/im.width),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);P.cover=c.toDataURL('image/jpeg',.85);P.prev='cover';P.updated=Date.now();persist();closeM();toast('Cover added — it shows on your home page')};im.src=r.result};r.readAsDataURL(file)}
+function coverModal(){modal(`<h3>Book cover</h3><div class="cvp">${P.cover?`<img src="${P.cover}" alt="Cover">`:'<div class="m" style="text-align:center;padding:10px">No cover yet. Add a portrait image — it appears on your 3D book, in the opening animation, and as page 1 of your PDF.</div>'}</div><div class="bt"><button class="pr" data-a="cv">${P.cover?'Change':'Choose'} image</button>${P.cover?'<button data-a="cx">Remove</button>':'<button data-x>Later</button>'}</div><label class="m">Home page shows<select id="f_pv" style="width:100%">${opts({cover:'Cover (image or title)',page:'First page of writing'},P.prev||'cover')}</select></label><input type="file" id="f_cv" accept="image/*" style="display:none"><button data-x>Done</button>`)}
+$('#cvb').onclick=coverModal;
+function cover(file){const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,760/im.width),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);P.cover=c.toDataURL('image/jpeg',.85);P.prev='cover';P.updated=Date.now();persist();coverModal();toast('Cover added ✓')};im.src=r.result};r.readAsDataURL(file)}
 $('#aa').onclick=()=>modal(`<h3>Page & text</h3><div class="fm"><label class="w">Author<input id="f_au" value="${esc(P.author)}" placeholder="Shown on the cover page"></label>
 <label>Page style<select id="f_st">${opts({book:'Book',plain:'Plain',ruled:'Lines',grid:'Grid',dots:'Dots',script:'Script',dark:'Dark'},P.style)}</select></label>
 <label>Page size<select id="f_pg">${opts({pocket:'Pocket',trade:'Trade',a5:'A5',letter:'Letter'},P.page)}</select></label>
@@ -247,43 +250,67 @@ $('#aa').onclick=()=>modal(`<h3>Page & text</h3><div class="fm"><label class="w"
 <label>Align<select id="f_al">${opts({left:'Left',justify:'Justify',center:'Center',right:'Right'},P.align)}</select></label>
 <label class="w">Home page shows<select id="f_pv">${opts({cover:'Cover (image or title)',page:'First page of writing'},P.prev||'cover')}</select></label>
 <div class="w row"><button data-a="cv">${P.cover?'Change':'Add'} cover image</button>${P.cover?'<button data-a="cx">Remove cover</button>':''}</div><input type="file" id="f_cv" accept="image/*" style="display:none"></div><button class="pr" data-x>Done</button>`);
-$('#mb').onchange=e=>{if(!e.target.id||e.target.id[0]!=='f')return;if(e.target.id==='f_cv'){if(e.target.files[0])cover(e.target.files[0]);return}const v=i=>$('#'+i).value;
+$('#mb').onchange=e=>{if(!e.target.id||e.target.id[0]!=='f')return;if(e.target.id==='f_pv'){P.prev=e.target.value;persist();return}if(e.target.id==='f_cv'){if(e.target.files[0])cover(e.target.files[0]);return}const v=i=>$('#'+i).value;
  P.author=v('f_au');P.style=v('f_st');P.page=v('f_pg');P.font=v('f_fo');P.size=+v('f_sz');P.lh=+v('f_lh');P.align=v('f_al');P.prev=v('f_pv');relayout()};
-/* writing assistant (optional, never auto-applied) */
-const SP={teh:'the',recieve:'receive',seperate:'separate',definately:'definitely',occured:'occurred',untill:'until',wich:'which',becuase:'because',alot:'a lot',thier:'their',truely:'truly',wierd:'weird',adress:'address',begining:'beginning',tommorow:'tomorrow',accomodate:'accommodate',goverment:'government',enviroment:'environment',freind:'friend',beleive:'believe',arguement:'argument',existance:'existence',grammer:'grammar',happend:'happened',knowlege:'knowledge',noticable:'noticeable',occassion:'occasion',realy:'really',sucess:'success',wether:'whether'};
-const cap=(m,r)=>m[0]===m[0].toUpperCase()?r[0].toUpperCase()+r.slice(1):r;
-function chk(t){const o=[];
- for(const w in SP){const re=new RegExp('\\b'+w+'\\b','gi');if(new RegExp('\\b'+w+'\\b','i').test(t))o.push({m:`Spelling: “${w}” → “${SP[w]}”`,f:x=>x.replace(re,m=>cap(m,SP[w]))})}
- const rule=(re,m,r)=>{if(re.test(t))o.push({m,f:x=>x.replace(re,r)})};
- rule(/\bi\b(?=[\s,.!?'’]|$)/g,'Capitalise the pronoun “I”','I');
- rule(/\b(\w+)\s+\1\b/gi,'Repeated word','$1');
- rule(/[ \t]{2,}/g,'Extra spaces',' ');
- rule(/[ \t]+([,.!?;:])/g,'Space before punctuation','$1');
- rule(/([,;:!?])(?=[A-Za-z])/g,'Missing space after punctuation','$1 ');
- rule(/([a-z])\.(?=[A-Z])/g,'Missing space after full stop','$1. ');
- if(/(^|[.!?]\s+)[a-z]/.test(t))o.push({m:'Sentence should start with a capital',f:x=>x.replace(/(^|[.!?]\s+)([a-z])/g,(m,a,b)=>a+b.toUpperCase())});
- const tt=t.trim();if(tt&&!/[.!?…"”')\]:]$/.test(tt)&&!isS(P))o.push({m:'Text ends without punctuation',f:x=>x.replace(/\s*$/,'.')});
- const wk=(t.match(/\b(very|really|just|quite|rather|suddenly)\b/gi)||[]).length;if(wk>3)o.push({m:`Improve: ${wk} weak intensifiers — try stronger verbs`});
- const ls=t.split(/(?<=[.!?])\s+/).filter(s=>words(s)>35).length;if(ls)o.push({m:`Improve: ${ls} very long sentence${ls>1?'s':''} — consider splitting`});
- const pv=(t.match(/\b(was|were|been|being|is|are)\s+\w+ed\b/gi)||[]).length;if(pv>2)o.push({m:`Improve: ${pv} possible passive-voice phrases`});
- return o}
-function panel(){const p=$('#as');if(!p.classList.contains('on'))return;const t=C.content,w=words(t);R=chk(t);
- p.innerHTML=`<b>✨ Writing assistant</b><div class="m">${w.toLocaleString()} words · ${t.length.toLocaleString()} chars · ${Math.max(1,Math.ceil(w/220))} min read · book total ${pw(P).toLocaleString()}</div>
- <label class="m"><input type="checkbox" id="spc" ${ta.spellcheck?'checked':''}> Spell-check underlines</label>
- ${R.slice(0,4).map((x,i)=>`<div class="sg"><span>${esc(x.m)}</span>${x.f?`<button data-s="${i}">Fix</button>`:''}</div>`).join('')||'<div class="m">No issues found ✓</div>'}${R.length>4?`<div class="m">+${R.length-4} more…</div>`:''}
- <div class="row"><button data-s="fmt">Format paragraphs</button><button data-s="x">Close</button></div><div class="m">Suggestions never change your text until you tap Fix.</div>`}
-$('#ai').onclick=()=>{$('#as').classList.toggle('on');panel()};
-$('#as').onclick=e=>{const b=e.target.closest('button');if(!b)return;const s=b.dataset.s;
+/* writing assistant: mechanical fixes only — never rewrites the story */
+const SP={teh:'the',recieve:'receive',recieved:'received',seperate:'separate',definately:'definitely',definatly:'definitely',definitly:'definitely',occured:'occurred',occurence:'occurrence',untill:'until',wich:'which',becuase:'because',becasue:'because',alot:'a lot',thier:'their',truely:'truly',wierd:'weird',adress:'address',begining:'beginning',tommorow:'tomorrow',tomorow:'tomorrow',accomodate:'accommodate',goverment:'government',enviroment:'environment',freind:'friend',freinds:'friends',beleive:'believe',arguement:'argument',existance:'existence',grammer:'grammar',happend:'happened',knowlege:'knowledge',noticable:'noticeable',occassion:'occasion',realy:'really',sucess:'success',sucessful:'successful',succesful:'successful',wether:'whether',tounge:'tongue',calender:'calendar',cemetary:'cemetery',collegue:'colleague',comming:'coming',commited:'committed',concious:'conscious',curiousity:'curiosity',dilemna:'dilemma',embarass:'embarrass',exagerate:'exaggerate',foriegn:'foreign',fourty:'forty',gaurd:'guard',harrass:'harass',hieght:'height',immediatly:'immediately',independant:'independent',interupt:'interrupt',jewelery:'jewellery',liason:'liaison',maintainance:'maintenance',millenium:'millennium',neccessary:'necessary',necesary:'necessary',nieghbor:'neighbor',oppurtunity:'opportunity',paralell:'parallel',persistant:'persistent',posession:'possession',prefered:'preferred',privelege:'privilege',publically:'publicly',recomend:'recommend',refered:'referred',relevent:'relevant',rythm:'rhythm',sieze:'seize',speach:'speech',strenght:'strength',suprise:'surprise',suprised:'surprised',tendancy:'tendency',unfortunatly:'unfortunately',vaccum:'vacuum',writting:'writing',yeild:'yield',peice:'piece',responsability:'responsibility',excellant:'excellent',acheive:'achieve',accross:'across',agressive:'aggressive',apparantly:'apparently',basicly:'basically',catagory:'category',decieve:'deceive',diffrent:'different',desparate:'desperate',goverments:'governments',greatful:'grateful',guarentee:'guarantee',knive:'knife',lenght:'length',mischievious:'mischievous',pasttime:'pastime',reciept:'receipt',shedule:'schedule',tyrany:'tyranny',wich:'which',
+ dont:"don't",cant:"can't",didnt:"didn't",doesnt:"doesn't",isnt:"isn't",wasnt:"wasn't",arent:"aren't",werent:"weren't",havent:"haven't",hasnt:"hasn't",hadnt:"hadn't",couldnt:"couldn't",wouldnt:"wouldn't",shouldnt:"shouldn't",youre:"you're",theyre:"they're",thats:"that's",whats:"what's",theres:"there's"};
+const SPR=new RegExp('\\b('+Object.keys(SP).join('|')+')\\b','gi'),ABBR=new Set(['mr','mrs','ms','dr','prof','sr','jr','st','vs','etc','e.g','i.e','a.m','p.m','no','fig','inc','ltd','co','mt']);
+const cap=(m,r)=>m.length>1&&m===m.toUpperCase()?r.toUpperCase():m[0]===m[0].toUpperCase()?r[0].toUpperCase()+r.slice(1):r;
+const LB={spell:'Spelling',gram:'Grammar',case:'Capitalisation',repeat:'Repeated word',space:'Spacing',punct:'Punctuation',end:'Punctuation',style:'Style tip'};
+function chk(t){const o=[],sc=isS(P);
+ const add=(k,s,e,rep,m,x)=>{if(o.length<500)o.push(Object.assign({k,s,e,rep,m,key:k+':'+t.slice(Math.max(0,s-14),e+14)},x))};
+ const each=(rx,fn)=>{rx.lastIndex=0;let m;while((m=rx.exec(t))){fn(m);if(!m[0])rx.lastIndex++}};
+ const dn=i=>(t.slice(t.lastIndexOf('\n',i)+1,i).match(/["“”]/g)||[]).length%2?'Inside dialogue — ignore it if that is how the character speaks.':'';
+ each(SPR,m=>add('spell',m.index,m.index+m[0].length,cap(m[0],SP[m[1].toLowerCase()]),'',{note:dn(m.index)}));
+ [[/\b(should|could|would|must|might) of\b/gi,m=>m[1]+' have'],[/\b(more|less|better|worse|rather|greater|bigger|smaller|faster|slower|older|younger|stronger|taller|larger|higher|lower|easier|harder) then\b/gi,m=>m[1]+' than'],
+  [/\bto (much|many)\b/gi,m=>(m[0][0]==='T'?'Too ':'too ')+m[1]],[/\bits (a|an|been|not|going|too|just|so|very|really|only|okay|ok|true|possible)\b/gi,m=>(m[0][0]==='I'?"It's ":"it's ")+m[1]],
+  [/\byour (a|an|going|not|being|welcome|right|so|very|really|too|the best)\b/gi,m=>(m[0][0]==='Y'?"You're ":"you're ")+m[1]],[/\btheir (is|are|was|were)\b/gi,m=>(m[0][0]==='T'?'There ':'there ')+m[1]],
+  [/\b(he|she|it) don't\b/gi,m=>m[1]+" doesn't"],[/\b(they|we|you) was\b/gi,m=>m[1]+' were']].forEach(([rx,f])=>each(rx,m=>add('gram',m.index,m.index+m[0].length,f(m),'',{note:dn(m.index)})));
+ each(/\b([Aa]) (?=([aeiou]\w*))/g,m=>{if(/^(uni|use|usu|uti|eu|one|once|ur[aeiou])/i.test(m[2]))return;add('gram',m.index,m.index+1,m[1]==='A'?'An':'an','')});
+ each(/\b([Aa]n) (?=([^aeiou\W\d_][\w'’]*))/g,m=>{if(/^(hour|honest|honor|honour|heir)/i.test(m[2])||/^[A-Z]{2,}\b/.test(m[2]))return;add('gram',m.index,m.index+2,m[1]==='An'?'A':'a','')});
+ each(/(?<![\w'’.\/(-])i(?=['’](?:m|ll|ve|d)\b|[\s,!?;])/g,m=>add('case',m.index,m.index+1,'I',''));
+ const OK=/^(no|very|had|that|yes|ha|so|bye|go|knock|never|now|hush|please|more|there|well|oh|ah|la|run|wait|stop|come|again|and|ho|yeah|mm|hmm)$/i;
+ each(/\b([A-Za-z]{2,}) \1\b/gi,m=>{const e=m.index+m[0].length;if(OK.test(m[1])||new RegExp('^\\s+'+m[1]+'\\b','i').test(t.slice(e,e+40)))return;add('repeat',m.index,e,m[1],'',{note:'Keep it if the repeat is intentional.'})});
+ each(/(?<=\S)[ ]{2,}(?=\S)/g,m=>add('space',m.index,m.index+m[0].length,' ','',{safe:1}));
+ each(/(?<=\S)[ ]+(?=[,;!?]|\.(?!\.))/g,m=>add('punct',m.index,m.index+m[0].length,'','',{safe:1}));
+ each(/(?<=[A-Za-z’'"”)])[,;](?=[A-Za-z])/g,m=>add('punct',m.index,m.index+1,m[0]+' ','',{safe:1}));
+ each(/(?<=[a-z])[.!?](?=[A-Z][a-z])/g,m=>add('punct',m.index,m.index+1,m[0]+' ','',{safe:1}));
+ if(!sc){const f=/^\s*([a-z])/.exec(t);if(f)add('case',f.index+f[0].length-1,f.index+f[0].length,f[1].toUpperCase(),'');
+  each(/(?<=[.!?][”"')]*\s+)[a-z]/g,m=>{const i=m.index;let j=i-1;while(j>=0&&/[\s”"')]/.test(t[j]))j--;if(t[j-1]==='.')return;const w=((/([A-Za-z.]+)$/.exec(t.slice(Math.max(0,j-8),j)))||['',''])[1].toLowerCase();if(w.length===1||ABBR.has(w))return;add('case',i,i+1,m[0].toUpperCase(),'')});
+  let p=0;const ls=t.split('\n');ls.forEach((ln,i)=>{const s0=p;p+=ln.length+1;if(i===ls.length-1)return;const tr=ln.replace(/\s+$/,'');if(words(tr)<4||/[.!?…"”'’):;—\-*\]]$/.test(tr)||tr===tr.toUpperCase())return;add('end',s0+tr.length,s0+tr.length,'.','')})}
+ each(/\b(very|really|quite|rather|literally|basically|actually|just)\b/gi,m=>add('style',m.index,m.index+m[0].length,null,'',{tip:'Weak intensifier — a stronger word, or cutting it, often reads better.'}));
+ each(/[^.!?\n]+[.!?]*/g,m=>{const n=words(m[0]);if(n>35)add('style',m.index,m.index+Math.min(m[0].length,60),null,'',{tip:`Very long sentence (${n} words) — consider splitting it.`})});
+ each(/\b(?:was|were|been|being|is|are|am|be)\s+(?!tired|excited|scared|surprised|worried|confused|pleased|bored|interested|married|determined|relaxed|shocked|amazed|annoyed|embarrassed|exhausted|frightened|disappointed|terrified|satisfied|crowded|limited|alarmed|indeed|need|red)\w+ed\b/gi,m=>add('style',m.index,m.index+m[0].length,null,'',{tip:'Possible passive voice — an active verb is usually stronger.'}));
+ return o.sort((a,b)=>a.s-b.s||a.e-b.e)}
+let IS=[],ii=0,IG=new Set(),SS=false,pt;
+function panel(){if(!$('#as').classList.contains('on'))return;clearTimeout(pt);pt=setTimeout(draw,220)}
+function goTo(x){go(x.s);const o=x.s-st[cur];ta.setSelectionRange(o,Math.min(Math.max(o,x.e-st[cur]),ta.value.length));if(matchMedia('(pointer:fine)').matches)ta.focus()}
+function draw(){const p=$('#as');if(!p.classList.contains('on')||!C)return;const t=C.content,w=words(t);
+ IS=chk(t).filter(x=>!IG.has(x.key)&&(SS||x.k!=='style'));if(ii>=IS.length)ii=Math.max(0,IS.length-1);
+ const x=IS[ii],sf=IS.filter(y=>y.safe).length,fx=IS.filter(y=>y.k!=='style').length;let card='<div class="sg ic" style="border-color:#47b39a">No issues found ✓ — your writing looks clean.</div>';
+ if(x){const a=Math.max(0,x.s-36),b=Math.min(t.length,x.e+36),cx=s=>esc(s).replace(/\n/g,' ↵ ');
+  card=`<div class="sg ic"><div class="m">${LB[x.k]} · ${ii+1} of ${IS.length}</div><div class="cx">${cx(t.slice(a,x.s))}<mark>${cx(t.slice(x.s,x.e))||'⎵'}</mark>${cx(t.slice(x.e,b))}</div>${x.rep!=null?`<div>→ <b>${esc(x.rep)||'(remove the space)'}</b></div>`:`<div class="m">${x.tip}</div>`}${x.note?`<div class="m">${x.note}</div>`:''}<div class="row">${x.rep!=null?'<button class="pr" data-s="fix">Fix</button>':''}<button data-s="ig">Ignore</button><button data-s="pv">‹</button><button data-s="nx">›</button></div></div>`}
+ p.innerHTML=`<div class="row" style="align-items:center"><b style="flex:1">✨ Writing assistant</b><button data-s="x" style="flex:none;width:34px;padding:0">✕</button></div><div class="m">${w.toLocaleString()} words · ${t.length.toLocaleString()} chars · ${Math.max(1,Math.ceil(w/220))} min read · ${fx} fix${fx===1?'':'es'}</div>${card}
+ <div class="row"><button data-s="fmt">Tidy blank lines</button>${sf?`<button data-s="all">Fix ${sf} spacing</button>`:''}</div>
+ <label class="m"><input type="checkbox" id="spc" ${ta.spellcheck?'checked':''}> Spell-check underlines</label><label class="m"><input type="checkbox" id="sty" ${SS?'checked':''}> Show style tips</label>
+ <div class="m">Only spelling, spacing, punctuation and grammar slips are offered. Your words, names and story are never rewritten, and every fix can be undone.</div>`}
+$('#ai').onclick=()=>{$('#as').classList.toggle('on');draw()};
+$('#as').onclick=e=>{const b=e.target.closest('button');if(!b)return;const s=b.dataset.s,x=IS[ii];
  if(s==='x')return $('#as').classList.remove('on');
- snap();if(s==='fmt')setC(C.content.replace(/[ \t]+$/gm,'').replace(/[ \t]{2,}/g,' ').replace(/\n{3,}/g,'\n\n').trim()+'\n');else setC(R[+s].f(C.content))};
-$('#as').onchange=e=>{if(e.target.id==='spc')ta.spellcheck=e.target.checked};
+ if(s==='nx'||s==='pv'){if(IS.length){ii=(ii+(s==='nx'?1:-1)+IS.length)%IS.length;draw();goTo(IS[ii])}return}
+ if(s==='ig'){if(x){IG.add(x.key);draw();if(IS[ii])goTo(IS[ii])}return}
+ if(s==='fix'&&x&&x.rep!=null){snap();setC(C.content.slice(0,x.s)+x.rep+C.content.slice(x.e),x.s+x.rep.length);draw();if(IS[ii])goTo(IS[ii]);return}
+ if(s==='all'){let t=C.content,lim=1e9;IS.filter(y=>y.safe).sort((a,b)=>b.s-a.s).forEach(y=>{if(y.e<=lim){t=t.slice(0,y.s)+y.rep+t.slice(y.e);lim=y.s}});snap();setC(t,Math.min(t.length,st[cur]+ta.selectionStart));draw();return}
+ if(s==='fmt'){snap();setC(C.content.replace(/[ \t]+$/gm,'').replace(/\n{3,}/g,'\n\n'),st[cur]+ta.selectionStart);draw()}};
+$('#as').onchange=e=>{if(e.target.id==='spc')ta.spellcheck=e.target.checked;if(e.target.id==='sty'){SS=e.target.checked;ii=0;draw()}};
 /* export */
 const safe=s=>(s||'StoryForge').replace(/[\\/:*?"<>|]/g,'_').trim()||'StoryForge';
 const full=()=>`${P.title}\n${P.author?'by '+P.author+'\n':''}\n`+P.chapters.map((c,i)=>`${hdr(c,i).replace(/<small>/,' — ').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&')}\n\n${c.content}`).join('\n\n\n');
 function dl(data,name,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 $('#ex').onclick=()=>{snap();persist();modal(`<h3>Export “${esc(P.title)}”</h3><div class="m">My Writing/${T[P.type][1]}/${esc(safe(P.title))}</div><div class="bt"><button data-a="txt">Text (.txt)</button><button data-a="pdf">PDF / Print</button><button data-a="cp">Copy text</button><button data-a="sh">Share</button>${P.chapters.length>1?'<button data-a="chs" style="grid-column:1/-1">Each section as .txt</button>':''}</div><button data-x>Close</button>`)};
 function sheets(){const g=geo(P),s=isS(P);let n=0,o='';
- if(P.type==='book')o+=`<section class="sh cv s-${P.style}" style="width:${g.w}px;height:${g.h}px;padding:${g.mt}px ${g.mx}px;font-family:${FONTS.Georgia}"><h1>${esc(P.title)}</h1>${P.author?`<div style="font-size:18px;font-style:italic">by ${esc(P.author)}</div>`:''}</section>`;
+ if(P.cover)o+=`<section class="sh" style="width:${g.w}px;height:${g.h}px;background:#000 url(${P.cover}) center/cover no-repeat"></section>`;else if(P.type==='book')o+=`<section class="sh cv s-${P.style}" style="width:${g.w}px;height:${g.h}px;padding:${g.mt}px ${g.mx}px;font-family:${FONTS.Georgia}"><h1>${esc(P.title)}</h1>${P.author?`<div style="font-size:18px;font-style:italic">by ${esc(P.author)}</div>`:''}</section>`;
  P.chapters.forEach((c,ci)=>{const pg=pag(c.content,P);pg.forEach((a,i)=>{n++;const t=c.content.slice(a,pg[i+1]??c.content.length);
   o+=`<section class="sh s-${P.style}" style="width:${g.w}px;min-height:${g.h}px;padding:${g.mt}px ${g.mx}px ${g.mb}px;--lh:${g.lh}px;--mx:${g.mx}px">${i===0&&g.hd?`<div class="hd" style="height:${g.hd}px">${hdr(c,ci)}</div>`:''}<div class="tx" style="font:${P.size}px/${g.lh}px ${ff(P)};text-align:${P.align}">${s?fs(t):esc(t)}</div><div class="pn" style="bottom:20px;right:${g.mx}px">${String(n).padStart(2,'0')}</div></section>`})});return o}
 function fs(t){let pv='';return t.split('\n').map(l=>{const s=l.trim();let c='ac';if(!s){pv='';return'<div><br></div>'}
@@ -297,7 +324,7 @@ $('#mb').onclick=async e=>{const b=e.target.closest('button');if(!b||!b.dataset.
  else if(a==='cp'){try{await navigator.clipboard.writeText(full());toast('Copied to clipboard')}catch{toast('Copy not available here')}closeM()}
  else if(a==='sh'){closeM();if(navigator.share)try{await navigator.share({title:P.title,text:full()})}catch{}else{try{await navigator.clipboard.writeText(full());toast('Sharing unavailable — copied instead')}catch{}}}
  else if(a==='chs'){closeM();P.chapters.forEach((c,i)=>setTimeout(()=>dl(`${c.title}\n\n${c.content}`,`${String(i+1).padStart(2,'0')} ${safe(c.title)}.txt`,'text/plain;charset=utf-8'),i*350))}
- else if(a==='ok'){const v=$('#rn').value.trim();if(v){closeM();askFn&&askFn(v)}}else if(a==='cv'){$('#f_cv').click()}else if(a==='cx'){delete P.cover;P.updated=Date.now();persist();closeM();toast('Cover removed')}else if(a==='sl'){save();closeM();goLib()}else if(a==='dc'){closeM();P=null;localStorage.removeItem(DK);goLib()}else if(a==='bk'){dl(JSON.stringify({version:3,exported:new Date().toISOString(),projects:D},null,1),'StoryForge-backup.json','application/json');closeM()}
+ else if(a==='ok'){const v=$('#rn').value.trim();if(v){closeM();askFn&&askFn(v)}}else if(a==='cv'){$('#f_cv').click()}else if(a==='cx'){delete P.cover;P.updated=Date.now();persist();coverModal();toast('Cover removed')}else if(a==='sl'){save();closeM();goLib()}else if(a==='dc'){closeM();P=null;localStorage.removeItem(DK);goLib()}else if(a==='bk'){dl(JSON.stringify({version:3,exported:new Date().toISOString(),projects:D},null,1),'StoryForge-backup.json','application/json');closeM()}
  else if(a==='rs'){const f=$('#rf');f.onchange=()=>{const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.projects))throw 0;x.projects.forEach(p=>{norm(p);const i=D.findIndex(q=>q.id===p.id);if(i<0)D.push(p);else D[i]=p});persist();closeM();lib();toast('Backup restored')}catch{toast('That file is not a StoryForge backup')}};r.readAsText(f.files[0])};f.click()}};
 window.addEventListener('afterprint',()=>{$('#prn').innerHTML=''});
 window.addEventListener('pagehide',()=>{if(P)persist()});document.addEventListener('visibilitychange',()=>{if(document.hidden&&P)persist()});
